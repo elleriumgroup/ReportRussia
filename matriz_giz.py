@@ -32,10 +32,10 @@ def scanline(s):
 
     if s[0] == '!':
         rline = s.split(' ')
-        form = rline[2]          # форма
-        r = rline[3]             # раздел
-        myear = rline[4]         # год
-        mperiod = rline[5]       # месяц
+        form = rline[2]               # форм
+        r = rline[3]                  # раздел
+        myear = rline[4]              # год
+        mperiod = rline[5]            # месяц
         oid = str(rline[6].zfill(4))  # код области
     else:
         dline = s.split(' ')
@@ -43,7 +43,6 @@ def scanline(s):
         for x in range(iCount):
             if x == 0:
                 mas[0] = dline[x].zfill(2)
-            # elif x ==
             else:
                 mas[x] = int(dline[x])
     # формируем строку вставки в файл
@@ -78,7 +77,8 @@ def ClearZeroStr():
     cur.execute('delete from matrix where s = 0;')
     con.commit()
 
-directory = r'c:\ReportRussia\giz'
+# directory = r'c:\ReportRussia\giz'
+directory = 'giz'
 files = os.listdir(directory)
 for file in files:
     print(str(dt.datetime.now()) + ' Начата обработка файла: ' + file)

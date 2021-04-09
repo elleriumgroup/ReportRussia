@@ -54,7 +54,7 @@ chess_russia['neras_abs']         = (chess_russia['neras_tp'] - chess_russia['ne
 chess_russia['neras_slob_abs']    = (chess_russia['neras_slob_tp'] - chess_russia['neras_slob_appg']) / chess_russia['neras_slob_tp'] * 100
 chess_russia['neras_slneob_abs']  = (chess_russia['neras_slneob_tp'] - chess_russia['neras_slneob_appg']) / chess_russia['neras_slneob_tp'] * 100
 chess_russia_out = chess_russia[['zar_tp', 'zar_abs', 'zar_slob_tp', 'zar_slob_abs', 'zar_slneob_tp', 'zar_slneob_abs',
-                                 'ras_tp', 'ras_abs', 'ras_slob_tp', 'ras_slob_abs', 'ras_slneob_abs', 'ras_slneob_abs',
+                                 'ras_tp', 'ras_abs', 'ras_slob_tp', 'ras_slob_abs', 'ras_slneob_tp', 'ras_slneob_abs',
                                  'neras_tp', 'neras_abs', 'neras_slob_tp', 'neras_slob_abs', 'neras_slneob_tp', 'neras_slneob_abs',
                                  'rask_tp', 'rask_appg', 'rask_slob_tp', 'rask_slob_appg', 'rask_slneob_tp', 'rask_slneob_appg']].copy()
 # расчет общей части шахматки - тяжкие

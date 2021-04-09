@@ -2,6 +2,7 @@ myear_tp   = input('Введите год расчета (последние 2 �
 mperiod    = input('Введите месяц расчета: ')
 myear_appg = int(myear_tp) - 1
 
+# Области ==============================================================================================================
 # Россия области - текущий период (раздел / строка / графа)
 sql_russia_tp = f'''
     select
@@ -120,6 +121,71 @@ sql_russia_mosh_appg = f'''
         t.code not in (1109,1106,9502);
 '''
 
+# Россия области НОН - текущий период
+sql_russia_non_tp = f'''
+    select
+        t.id as 'region',
+        t.name as 'oblast_tp',
+        ifnull(get_mvalue(t.code,{myear_tp},{mperiod},494,1,23,2),0)   as 'zar_non_tp',
+        ifnull(get_mvalue(t.code,{myear_tp},{mperiod},494,1,23,17),0)  as 'ras_non_tp',
+        ifnull(get_mvalue(t.code,{myear_tp},{mperiod},494,1,23,38) + 
+               get_mvalue(t.code,{myear_tp},{mperiod},494,1,23,39) +
+               get_mvalue(t.code,{myear_tp},{mperiod},494,1,23,40),0)  as 'neras_non_tp'
+    from
+        oblast t
+    where
+        t.code not in (1109,1106,9502);
+'''
+
+# Россия области НОН - предыдущий период
+sql_russia_non_appg = f'''
+    select
+        t.id as 'region',
+        t.name as 'oblast_tp',
+        ifnull(get_mvalue(t.code,{myear_appg},{mperiod},494,1,23,2),0)   as 'zar_non_appg',
+        ifnull(get_mvalue(t.code,{myear_appg},{mperiod},494,1,23,17),0)  as 'ras_non_appg',
+        ifnull(get_mvalue(t.code,{myear_appg},{mperiod},494,1,23,38) + 
+               get_mvalue(t.code,{myear_appg},{mperiod},494,1,23,39) +
+               get_mvalue(t.code,{myear_appg},{mperiod},494,1,23,40),0)  as 'neras_non_appg'
+    from
+        oblast t
+    where
+        t.code not in (1109,1106,9502);
+'''
+
+# Россия области 15803Г - ТП
+sql_russia_15803_tp = f'''
+    select
+        t.id as 'region',
+        t.name as 'oblast_tp',
+        ifnull(get_mvalue(t.code,{myear_tp},{mperiod},494,2,43,4),0)  as 'zar_15803_tp',
+        ifnull(get_mvalue(t.code,{myear_tp},{mperiod},494,3,43,1),0)  as 'ras_15803_tp',
+        ifnull(get_mvalue(t.code,{myear_tp},{mperiod},494,3,43,24) + 
+               get_mvalue(t.code,{myear_tp},{mperiod},494,3,43,26) +
+               get_mvalue(t.code,{myear_tp},{mperiod},494,3,43,27),0) as 'neras_15803_tp'
+    from
+        oblast t
+    where
+        t.code not in (1109,1106,9502);
+'''
+
+# Россия области 15803Г - АППГ
+sql_russia_15803_appg = f'''
+    select
+        t.id as 'region',
+        t.name as 'oblast_tp',
+        ifnull(get_mvalue(t.code,{myear_appg},{mperiod},494,2,43,4),0)  as 'zar_15803_appg',
+        ifnull(get_mvalue(t.code,{myear_appg},{mperiod},494,3,43,1),0)  as 'ras_15803_appg',
+        ifnull(get_mvalue(t.code,{myear_appg},{mperiod},494,3,43,24) + 
+               get_mvalue(t.code,{myear_appg},{mperiod},494,3,43,26) +
+               get_mvalue(t.code,{myear_appg},{mperiod},494,3,43,27),0) as 'neras_15803_appg'
+    from
+        oblast t
+    where
+        t.code not in (1109,1106,9502);
+'''
+
+# Федеральные округа ===================================================================================================
 # Федеральные округа - текущий период
 sql_fo_tp = f'''
     select 
@@ -243,6 +309,41 @@ sql_fomosh_appg = f'''
         group by t.oid;
 '''
 
+# ФО НОН - текущий период
+sql_fo_non_tp = f'''
+    select
+        t.id as 'region',
+        (select okrug.name from okrug where okrug.id = t.oid)              as 'oblast_tp',
+        sum(ifnull(get_mvalue(t.code,{myear_tp},{mperiod},494,1,23,2),0))  as 'zar_non_fo_tp',
+        sum(ifnull(get_mvalue(t.code,{myear_tp},{mperiod},494,1,23,17),0)) as 'ras_non_fo_tp',
+        sum(ifnull(get_mvalue(t.code,{myear_tp},{mperiod},494,1,23,38) + 
+                   get_mvalue(t.code,{myear_tp},{mperiod},494,1,23,39) +
+                   get_mvalue(t.code,{myear_tp},{mperiod},494,1,23,40),0)) as 'neras_non_fo_tp'
+    from
+        oblast t
+    where
+        t.oid > 0 and t.code not in (1109,1106,9502)
+    group by t.oid;
+'''
+
+# ФО НОН - предыдущий период
+sql_fo_non_appg = f'''
+    select
+        t.id as 'region',
+        (select okrug.name from okrug where okrug.id = t.oid) as 'oblast_tp',
+        sum(ifnull(get_mvalue(t.code,{myear_appg},{mperiod},494,1,23,2),0))  as 'zar_non_fo_tp',
+        sum(ifnull(get_mvalue(t.code,{myear_appg},{mperiod},494,1,23,17),0)) as 'ras_non_fo_tp',
+        sum(ifnull(get_mvalue(t.code,{myear_appg},{mperiod},494,1,23,38) + 
+                   get_mvalue(t.code,{myear_appg},{mperiod},494,1,23,39) +
+                   get_mvalue(t.code,{myear_appg},{mperiod},494,1,23,40),0)) as 'neras_non_fo_tp'
+    from
+        oblast t
+    where
+        t.oid > 0 and t.code not in (1109,1106,9502)
+    group by t.oid;
+'''
+
+# Северо-Запад =========================================================================================================
 # Области Северо-Запада - текущий период
 sql_sz_tp = f'''
         select
@@ -360,3 +461,36 @@ sql_mosh_sz_appg = f'''
         where
         t.oid = 2;
 '''
+
+# С-З НОН ТП
+sql_sz_non_tp = f'''
+        select
+        t.id as 'region',
+        t.name as 'oblast_tp',
+        ifnull(get_mvalue(t.code,{myear_tp},{mperiod},494,1,23,2),0)   as 'zar_sz_non_tp',
+        ifnull(get_mvalue(t.code,{myear_tp},{mperiod},494,1,23,17),0)  as 'ras_sz_non_tp',
+        ifnull(get_mvalue(t.code,{myear_tp},{mperiod},494,1,23,38),0) + 
+        ifnull(get_mvalue(t.code,{myear_tp},{mperiod},494,1,23,39),0) +
+        ifnull(get_mvalue(t.code,{myear_tp},{mperiod},494,1,23,40),0) as 'neras_sz_non_tp'
+        from 
+            oblast t
+        where
+        t.oid = 2;
+'''
+
+# С-З НОН АППГ
+sql_sz_non_appg = f'''
+        select
+        t.id as 'region',
+        t.name as 'oblast_tp',
+        ifnull(get_mvalue(t.code,{myear_appg},{mperiod},494,1,23,2),0)   as 'zar_sz_non_appg',
+        ifnull(get_mvalue(t.code,{myear_appg},{mperiod},494,1,23,17),0)  as 'ras_sz_non_appg',
+        ifnull(get_mvalue(t.code,{myear_appg},{mperiod},494,1,23,38),0) + 
+        ifnull(get_mvalue(t.code,{myear_appg},{mperiod},494,1,23,39),0) +
+        ifnull(get_mvalue(t.code,{myear_appg},{mperiod},494,1,23,40),0) as 'neras_sz_non_appg'
+        from 
+            oblast t
+        where
+        t.oid = 2;
+'''
+# добавить инфу по, ИКТ, 15803Г

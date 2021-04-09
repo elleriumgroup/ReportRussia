@@ -29,6 +29,7 @@ logwrite(f'Начало обработки отчета. Год расчета: 
 # Преобразование данных для дальнейшей работы
 logwrite('Преобразование данных для дальнейшей работы')
 # ======================================================================================================================
+# ОБЛАСТИ ==============================================================================================================
 # Россия-области-ТП
 russia_oblast_tp                                 = pd.read_sql(ms.sql_russia_tp, con, index_col = 'region')
 russia_oblast_tp['zar_tp']                       = pd.to_numeric(russia_oblast_tp['zar_tp'])
@@ -81,6 +82,19 @@ russia_oblast_mosh_appg['zar_mosh_appg']         = pd.to_numeric(russia_oblast_m
 russia_oblast_mosh_appg['ras_mosh_appg']         = pd.to_numeric(russia_oblast_mosh_appg['ras_mosh_appg'])
 russia_oblast_mosh_appg['neras_mosh_appg']       = pd.to_numeric(russia_oblast_mosh_appg['neras_mosh_appg'])
 russia_oblast_mosh_appg['rask_mosh_appg']        = russia_oblast_mosh_appg['ras_mosh_appg'] / (russia_oblast_mosh_appg['ras_mosh_appg'] + russia_oblast_mosh_appg['neras_mosh_appg']) * 100
+# Россия-области-НОН-ТП
+russia_oblast_non_tp                             = pd.read_sql(ms.sql_russia_non_tp, con, index_col='region')
+russia_oblast_non_tp['zar_non_tp']               = pd.to_numeric(russia_oblast_non_tp['zar_non_tp'])
+russia_oblast_non_tp['ras_non_tp']               = pd.to_numeric(russia_oblast_non_tp['ras_non_tp'])
+russia_oblast_non_tp['neras_non_tp']             = pd.to_numeric(russia_oblast_non_tp['neras_non_tp'])
+russia_oblast_non_tp['rask_non_tp']              = russia_oblast_non_tp['ras_non_tp'] / (russia_oblast_non_tp['ras_non_tp'] + russia_oblast_non_tp['neras_non_tp']) * 100
+# Россия-области-НОН-АППГ
+russia_oblast_non_appg                           = pd.read_sql(ms.sql_russia_non_appg, con, index_col='region')
+russia_oblast_non_appg['zar_non_appg']           = pd.to_numeric(russia_oblast_non_appg['zar_non_appg'])
+russia_oblast_non_appg['ras_non_appg']           = pd.to_numeric(russia_oblast_non_appg['ras_non_appg'])
+russia_oblast_non_appg['neras_non_appg']         = pd.to_numeric(russia_oblast_non_appg['neras_non_appg'])
+russia_oblast_non_appg['rask_non_appg']          = russia_oblast_non_appg['ras_non_appg'] / (russia_oblast_non_appg['ras_non_appg'] + russia_oblast_non_appg['neras_non_appg']) * 100
+# ФЕДЕРАЛЬНЫЕ ОКРУГА ===================================================================================================
 # Федеральные-округа-ТП
 russia_oblast_fo_tp                              = pd.read_sql(ms.sql_fo_tp, con, index_col='region')
 russia_oblast_fo_tp['zar_fo_tp']                 = pd.to_numeric(russia_oblast_fo_tp['zar_fo_tp'])
@@ -133,6 +147,26 @@ russia_oblast_mosh_fo_appg['zar_mosh_fo_appg']   = pd.to_numeric(russia_oblast_m
 russia_oblast_mosh_fo_appg['ras_mosh_fo_appg']   = pd.to_numeric(russia_oblast_mosh_fo_appg['ras_mosh_fo_appg'])
 russia_oblast_mosh_fo_appg['neras_mosh_fo_appg'] = pd.to_numeric(russia_oblast_mosh_fo_appg['neras_mosh_fo_appg'])
 russia_oblast_mosh_fo_appg['rask_mosh_fo_appg']  = russia_oblast_mosh_fo_appg['ras_mosh_fo_appg'] / (russia_oblast_mosh_fo_appg['ras_mosh_fo_appg'] + russia_oblast_mosh_fo_appg['neras_mosh_fo_appg']) * 100
+# ФО-НОН-ТП
+russia_fo_non_tp                                 = pd.read_sql(ms.sql_fo_non_tp, con, index_col='region')
+russia_fo_non_tp['zar_fo_non_tp']                = pd.to_numeric(russia_fo_non_tp['zar_fo_non_tp'])
+russia_fo_non_tp['ras_fo_non_tp']                = pd.to_numeric(russia_fo_non_tp['ras_fo_non_tp'])
+russia_fo_non_tp['neras_fo_non_tp']              = pd.to_numeric(russia_fo_non_tp['neras_fo_non_tp'])
+russia_fo_non_tp['raskk_fo_non_tp']              = russia_fo_non_tp['ras_fo_non_tp'] / (russia_fo_non_tp['ras_fo_non_tp'] + russia_fo_non_tp['nerras_fo_non_tp']) * 100
+# ФО-НОН-АППГ
+russia_fo_non_appg                               = pd.read_sql(ms.sql_fo_non_appg, con, index_col='region')
+russia_fo_non_appg['zar_fo_non_appg']            = pd.to_numeric(russia_fo_non_appg['zar_fo_non_appg'])
+russia_fo_non_appg['ras_fo_non_appg']            = pd.to_numeric(russia_fo_non_appg['ras_fo_non_appg'])
+russia_fo_non_appg['neras_fo_non_appg']          = pd.to_numeric(russia_fo_non_appg['neras_fo_non_appg'])
+russia_fo_non_appg['raskk_fo_non_appg']          = russia_fo_non_appg['ras_fo_non_appg'] / (russia_fo_non_appg['ras_fo_non_appg'] + russia_fo_non_appg['nerras_fo_non_appg']) * 100
+
+
+
+
+
+
+
+
 # Северо-Запад-ТП
 russia_oblast_sz_tp                              = pd.read_sql(ms.sql_sz_tp, con, index_col='region')
 russia_oblast_sz_tp['zar_sz_tp']                 = pd.to_numeric(russia_oblast_sz_tp['zar_sz_tp'])
